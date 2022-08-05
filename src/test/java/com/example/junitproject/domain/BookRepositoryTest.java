@@ -1,8 +1,12 @@
 package com.example.junitproject.domain;
 
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -11,6 +15,20 @@ class BookRepositoryTest {
 
     @Autowired // DI
     private BookRepository bookRepository;
+
+    // @BeforeAll // 테스트 시작 전 한번만 실행
+    @BeforeEach // 각 테스트 시작 전 실행
+    public void 데이터준비(){
+        String title = "junit";
+        String author = "getInThere";
+
+        Book book = Book.builder()
+                .title(title)
+                .author(author)
+                .build();
+
+        Book bookPersistence = bookRepository.save(book);
+    }
 
     // 1. 책 등록
     @Test
@@ -33,8 +51,38 @@ class BookRepositoryTest {
     }
 
     // 2. 책 목록보기
+    @Test
+    public void 책목록보기_test(){
+        //given
+        String title = "junit";
+        String author = "getInThere";
+
+        //when
+        List<Book> booksPersistence = bookRepository.findAll();
+
+        //then
+        assertEquals(title, booksPersistence.get(0).getTitle());
+        assertEquals(author, booksPersistence.get(0).getAuthor());
+    }
+
 
     // 3. 책 한 권 보기
+    @Test
+    public void 책한권보기_test(){
+        //given
+        String title = "junit";
+        String author = "getInThere";
+
+        //when
+        List<Book> booksPersistence = bookRepository.findAll();
+
+        System.out.println(booksPersistence.get(0).getId());
+
+        Book book = bookRepository.findById(1L).get();
+        //then
+        assertEquals(title, book.getTitle());
+        assertEquals(author, book.getAuthor());
+    }
 
     // 4. 책 수정
 
