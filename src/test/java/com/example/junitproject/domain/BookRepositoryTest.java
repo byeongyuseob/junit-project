@@ -15,7 +15,21 @@ class BookRepositoryTest {
     // 1. 책 등록
     @Test
     public void 책등록_test(){
-        System.out.println("책등록 테스트 실행");
+        // given (테이터 준비)
+        String title = "junit5";
+        String author = "meta-coding";
+
+        Book book = Book.builder()
+                .title(title)
+                .author(author)
+                .build();
+
+        // when (데이터 실행)
+        Book bookPersistence = bookRepository.save(book);
+
+        //then (검증)
+        assertEquals(title, bookPersistence.getTitle());
+        assertEquals(author, bookPersistence.getAuthor());
     }
 
     // 2. 책 목록보기
