@@ -5,8 +5,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -67,6 +69,7 @@ class BookRepositoryTest {
 
 
     // 3. 책 한 권 보기
+    @Sql("classpath:db/tableInit.sql")
     @Test
     public void 책한권보기_test(){
         //given
@@ -74,11 +77,8 @@ class BookRepositoryTest {
         String author = "getInThere";
 
         //when
-        List<Book> booksPersistence = bookRepository.findAll();
-
-        System.out.println(booksPersistence.get(0).getId());
-
         Book book = bookRepository.findById(1L).get();
+
         //then
         assertEquals(title, book.getTitle());
         assertEquals(author, book.getAuthor());
@@ -87,5 +87,18 @@ class BookRepositoryTest {
     // 4. 책 수정
 
     // 5. 책 삭제
+    @Sql("classpath:db/tableInit.sql")
+    @Test
+    public void 책삭제_test(){
+        //given
+        Long id = 1L;
+
+        //when
+        bookRepository.deleteById(id);
+
+        //then
+        //Optional<Book> bookPersistance = bookRepository.findById(id);
+        assertFalse(bookRepository.findById(id).isPresent());
+    }
 
 }
