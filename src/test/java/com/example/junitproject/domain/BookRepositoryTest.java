@@ -20,7 +20,7 @@ class BookRepositoryTest {
 
     // @BeforeAll // 테스트 시작 전 한번만 실행
     @BeforeEach // 각 테스트 시작 전 실행
-    public void 데이터준비(){
+    public void init(){
         String title = "junit";
         String author = "getInThere";
 
@@ -34,7 +34,7 @@ class BookRepositoryTest {
 
     // 1. 책 등록
     @Test
-    public void 책등록_test(){
+    public void save(){
         // given (테이터 준비)
         String title = "junit5";
         String author = "meta-coding";
@@ -54,7 +54,7 @@ class BookRepositoryTest {
 
     // 2. 책 목록보기
     @Test
-    public void 책목록보기_test(){
+    public void selectAll(){
         //given
         String title = "junit";
         String author = "getInThere";
@@ -71,7 +71,7 @@ class BookRepositoryTest {
     // 3. 책 한 권 보기
     @Sql("classpath:db/tableInit.sql")
     @Test
-    public void 책한권보기_test(){
+    public void select(){
         //given
         String title = "junit";
         String author = "getInThere";
@@ -87,7 +87,7 @@ class BookRepositoryTest {
     // 4. 책 수정
     @Sql("classpath:db/tableInit.sql")
     @Test
-    public void 책수정_test(){
+    public void update(){
         //given
         Long id = 1L;
         String title = "junit5";
@@ -110,7 +110,7 @@ class BookRepositoryTest {
     // 5. 책 삭제
     @Sql("classpath:db/tableInit.sql")
     @Test
-    public void 책삭제_test(){
+    public void delete(){
         //given
         Long id = 1L;
 
