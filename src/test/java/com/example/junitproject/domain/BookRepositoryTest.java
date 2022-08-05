@@ -85,6 +85,27 @@ class BookRepositoryTest {
     }
 
     // 4. 책 수정
+    @Sql("classpath:db/tableInit.sql")
+    @Test
+    public void 책수정_test(){
+        //given
+        Long id = 1L;
+        String title = "junit5";
+        String author = "meta-coding";
+
+        Book book = new Book(id, title, author);
+
+        //when
+        Book bookPersistance = bookRepository.save(book); // upsert
+
+        //bookRepository.findAll().stream()
+        //.forEach(book1 -> System.out.print(book1.getId()));
+
+        //then
+        assertEquals(id, bookPersistance.getId());
+        assertEquals(title, bookPersistance.getTitle());
+        assertEquals(author, bookPersistance.getAuthor());
+    }
 
     // 5. 책 삭제
     @Sql("classpath:db/tableInit.sql")
@@ -98,6 +119,7 @@ class BookRepositoryTest {
 
         //then
         //Optional<Book> bookPersistance = bookRepository.findById(id);
+        //assertFalse(bookPersistance.isPresent());
         assertFalse(bookRepository.findById(id).isPresent());
     }
 
